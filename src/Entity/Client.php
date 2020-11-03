@@ -2,26 +2,39 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ApiResource(collectionOperations={},
+ *     itemOperations={"GET"={"normalization_context"={"groups"="clients:item"}}}
+ * )
+ * 
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity("email", message="Un autre utilisateur possède déjà cette adresse email")
  */
 class Client implements UserInterface
 {
     /**
-     * @ORM\Id
+     *@ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"clients:item"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="L'email doit être renseigné !")
+     * @Assert\Email(message="L'adresse email doit avoir un format valide !")
+     * @Groups({"clients:item"})
      */
     private $email;
 
@@ -33,11 +46,17 @@ class Client implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * 
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\NotBlank(message="Le nom de l'entreprise est obligatoire")
+     * @Assert\Length(min=3, minMessage="Le nom de l'entreprise doit faire entre 3 et 255 caractères", max=255, maxMessage="Le nom de l'entreprise doit faire entre 3 et 255 caractères")
+     * @Groups({"clients:item"})
      */
     private $company;
 
