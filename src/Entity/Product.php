@@ -2,14 +2,23 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get"={"normalization_context"={"groups"="products:list"}}},
+ *      itemOperations={"get"={"normalization_context"={"groups"="products:item"}}},
+ * attributes={
+ *      "pagination_items_per_page"=10,
+ *      "order": {"createdAt":"desc"}
+ *  }
+ * )
+ * 
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
 class Product
@@ -18,41 +27,49 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"products:list", "products:item"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"products:list", "products:item"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"products:item"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"products:item"})
      */
     private $color;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"products:item"})
      */
     private $screenSize;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"products:item"})
      */
     private $storage;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"products:item"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"products:item"})
      */
     private $createdAt;
 
