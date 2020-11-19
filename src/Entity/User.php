@@ -9,18 +9,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
 /**
- * @ApiResource(   
+ * @ApiResource( 
+ *  attributes={               
+ *           "pagination_items_per_page"=10,
+ *            "order": {"id":"desc"}},   
  *  collectionOperations={
  *          "get" = {"normalization_context"={"groups"="users:list"}}, 
  *          "post" = {"denormalization_context" ={"groups" = {"users:write"},
  *          "disable_type_enforcement"=true}}},
  *  itemOperations={
- *          "get"={"normalization_context"={"groups"="users:item"}},
- *          "delete"},
- *  attributes={
- *           "pagination_items_per_page"=10,
- *            "order": {"id":"desc"}} 
+ *          "get"={"normalization_context"={"groups"="users:item"},
+ *                  "security_post_denormalize" = "is_granted('VIEW', previous_object)",
+ *                  "security_post_denormalize_message"="Cette ressource ne vous appartient pas !"},
+ *          "delete" = {
+ *                  "security_post_denormalize" = "is_granted('DELETE', previous_object)",
+ *                  "security_post_denormalize_message"="Cette ressource ne vous appartient pas !"}}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="Un autre utilisateur possède déjà cette adresse email")
@@ -77,11 +82,11 @@ class User
      * @Assert\NotBlank(message="Le code postal est obligatoire")
      * @Assert\Type(
      *      type="integer", 
-     *      message="Le code postal est incorrect")
+     *      message="Le format du code postal est incorrect")
      * @Assert\Length(
      *      min="5",           
      *      max="5",     
-     *      exactMessage="Le code postal est incorrect"
+     *      exactMessage="Le code postal doit être composé de cinq chiffres"
      * )
      */
     private $postCode;
@@ -110,7 +115,7 @@ class User
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="Users")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"users:write"})
-     * @Assert\NotBlank(message="Le numéro de client est obligatoire !")
+     * @Assert\NotBlank(message="Le numéro de client est obligatoire !") 
      */
     private $client;
 
