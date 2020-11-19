@@ -51,8 +51,9 @@ Documentation API - Swagger
 
 Utilisateur par défaut
 	    
-       {
+    {
   	"username": "user@nesweb.fr",
  	"password": "password"
 	}
+
 
