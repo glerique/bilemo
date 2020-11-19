@@ -1,8 +1,7 @@
 # bilemo
 Un web service exposant une API
 
-<p>Projet 7 du parcours développeur d'application PHP/Symfony chez OpenClassrooms :</p>
-<p>Créez un web service exposant une API</p>
+<p>Projet 7 du parcours développeur d'application PHP/Symfony chez OpenClassrooms : Créez un web service exposant une API</p>
 <p>Réalisé en PHP 7.3.5 et Symfony 5.1.7</p>
 <hr />
 <a href="https://codeclimate.com/github/glerique/bilemo/maintainability"><img src="https://api.codeclimate.com/v1/badges/d0204bf4bfeccd221077/maintainability" /></a>
@@ -52,7 +51,7 @@ Documentation API - Swagger
 
 Utilisateur par défaut
 	    
-        {
+       {
   	"username": "user@nesweb.fr",
  	"password": "password"
 	}
