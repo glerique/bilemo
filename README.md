@@ -48,12 +48,12 @@ Lancer L'application
 Documentation API - Swagger
 	    
     - http://localhost:8000/api/docs
-<hr/ >
+<hr />
 
 Utilisateur par défaut
 	    
-    {
+        {
   	"username": "user@nesweb.fr",
- 	  "password": "password"
-	  }
+ 	"password": "password"
+	}
 
