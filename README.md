@@ -19,6 +19,8 @@ Installer l'application
     
     - Créez la base de données en utilisant la commande suivante : php bin/console doctrine:database:create
     
+    - Créez la structure de la base de données en utilisant la commande : php bin/console doctrine:migrations:migrate
+    
     - Installer les fixtures pour avoir un jeu de données fictives avec la commande suivante : php bin/console doctrine:fixtures:load
 
 
